@@ -1,11 +1,13 @@
-const { resolve } = require('path');
-const babel = require('rollup-plugin-babel');
-const { eslint } = require('rollup-plugin-eslint');
-const commonjs = require('rollup-plugin-commonjs');
-const rollupResolve = require('rollup-plugin-node-resolve');
-const serve = require('rollup-plugin-serve'); 
-const livereload = require('rollup-plugin-livereload');
-// const { terser } require('rollup-plugin-terser');
+import { resolve } from 'path';
+import babel from 'rollup-plugin-babel';
+import { eslint } from 'rollup-plugin-eslint';
+import commonjs from 'rollup-plugin-commonjs';
+import rollupResolve from 'rollup-plugin-node-resolve';
+import serve from 'rollup-plugin-serve'; 
+import livereload from 'rollup-plugin-livereload';
+import postcss from 'rollup-plugin-postcss';
+
+import { terser } from 'rollup-plugin-terser';
 
 class RollUpConfig {
 
@@ -15,9 +17,9 @@ class RollUpConfig {
 
     get output() {
         return [
-            { file: resolve('dist/bundle_cjs.js'), format: 'cjs' },
-            { file: resolve('dist/bundle_es.js'), format: 'es' },
-            { file: resolve('dist/bundle_umd.js'), format: 'umd', name: 'test'}
+            // { file: resolve('dist/bundle_cjs.js'), format: 'cjs' },
+            // { file: resolve('dist/bundle_es.js'), format: 'es' },
+            { file: resolve('lib/bundle_umd.js'), format: 'umd', name: 'umd', sourcemap: true,}
         ];
     }
 
@@ -26,20 +28,27 @@ class RollUpConfig {
         const basePlugins = [
             rollupResolve(),
             commonjs(),
+            postcss({
+                extensions: ['.css', '.less']
+            }),
             eslint({
+                fix: true,
                 throwOnError: true,
                 throwOnWarning: true,
-                include: ['src/**'],
-                exclude: ['node_modules/**']
+                include: resolve('src'),
+                exclude: resolve('node_modules')
             }),
             babel({
                 exclude: 'node_modules/**',
                 runtimeHelpers: true,
-            }),
+            })
         ];
         
         if(this.NODE_ENV === 'production') {
-            return basePlugins;
+            return [
+                ...basePlugins,
+                terser(),
+            ];
         }
         
         return [
@@ -47,7 +56,7 @@ class RollUpConfig {
             serve({  
                 open: true,
                 port: 4000,
-                contentBase: [resolve('public'), resolve('dist')]
+                contentBase: [resolve('public'), resolve('lib')]
             }),
             livereload(resolve('src')),
         ];
@@ -56,7 +65,7 @@ class RollUpConfig {
 
     get globals() {
         return {
-            lodash: '_'
+            axios: 'axios'
         };
     }
 
