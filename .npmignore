@@ -1,0 +1,12 @@
+**/node_modules
+**/history
+**/yarn.lock
+**/public
+**/src
+**/.eslintignore
+**/.prettierrc
+**/.eslintrc.js
+**/babel.config.js
+**/rollup.config.js
+**/yarn-error.log
+
