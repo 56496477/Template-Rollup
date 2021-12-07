@@ -13,3 +13,4 @@
 yarn build
 ```
 会生成cjs,es,umd三种类型的版本
+ss
