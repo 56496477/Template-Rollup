@@ -1,0 +1,37 @@
+{
+    "compilerOptions": {
+        "incremental": true,
+        "module": "esnext",
+        "target": "es6",
+        "removeComments": true,
+        "emitDecoratorMetadata": false,
+        "experimentalDecorators": true,
+        "moduleResolution": "node",
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
+        "jsx": "react",
+        "noImplicitAny": true,
+        "declaration": true,
+        "noEmitOnError": false,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "inlineSourceMap": false,
+        "lib": [
+            "esnext",
+            "es5",
+            "es6",
+            "es7",
+            "es2015",
+            "dom"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "**/node_modules",
+        "**/dist",
+        "**/lib",
+        "**/todo",
+        "**/*.spec.ts"
+    ]
+}
